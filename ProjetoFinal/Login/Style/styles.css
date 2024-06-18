@@ -1,0 +1,177 @@
+#loading-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Conteúdo da página */
+#content {
+    padding: 20px;
+}
+
+
+body {
+    /* Cor do fundo */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #19401F, #85A68A, #19401F);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    /* Cor tela de login */
+    background: linear-gradient(135deg, #12591D, #CDD9BA);
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 10px 50px #19401F;
+}
+
+.left {
+    /* Cor texto esquerdo */
+    color: white;
+    padding-right: 20px;
+    text-align: center;
+    margin-right: 100px;
+}
+
+.left h1 {
+    /* Linha de baixo do texto life */
+    margin: 0;
+    font-size: 4em;
+    font-weight: bold;
+    border-bottom: 1px solid white;
+    padding-bottom: 1px;
+    font-family: 'Georgia', 'Times', 'serif';
+}
+
+.left p {
+    /* Espaço do texto esquerdo da tela de login */
+    font-size: 1.3em;
+}
+
+.right {
+    /* Tamanho da tela de login e outros da mesma */
+    margin: 68px;
+    text-align: center;
+    padding-top: 0px;
+}
+
+.right h2 {
+    /* Texto bem-vindo */
+    /* Cor e fonte e mais */
+    margin: 0;
+    margin-bottom: 0px;
+    color: white;
+    font-size: 4.0em;
+    font-family: 'Georgia', 'Times', 'serif';
+}
+
+.right input {
+    /* Visual dos campos de entrada (inputs) */
+    display: block;
+    width: calc(100% - 30px);
+    padding: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.right input[type="text"],
+.right input[type="password"] {
+    background-color: #e9ecef;
+}
+
+.right input[type="submit"] {
+    background-color: #19401F;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width: 370px; /* Tamanho do botão */
+    font-family: 'Georgia', 'Times', 'serif';
+    transition: transform 0.3s ease; /* Animação de transição */
+}
+
+.right input[type="submit"]:hover {
+    background-color: #12591D; /* trem do cursor */
+    transform: scale(1.05); /* Efeito de aumento ao passar o cursor */
+}
+
+.right a {
+    display: block;
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    text-decoration: none;
+    font-family: 'Georgia', 'Times', 'serif';
+}
+
+.right a:hover {
+    text-decoration: underline;
+}
+
+/*trem do celular la */
+@media screen and (max-width: 800px)
+{
+    body {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: auto;
+        padding: 20px;
+    }
+
+    .container {
+        flex-direction: column;
+        max-width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .left {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .left h1 {
+        font-size: 2.5em;
+    }
+
+    .right {
+        margin: 0;
+    }
+
+    .right h2 {
+        font-size: 2.5em;
+    }
+
+    .right input[type="submit"] {
+        width: 100%;
+        max-width: 100%;
+    }
+}
