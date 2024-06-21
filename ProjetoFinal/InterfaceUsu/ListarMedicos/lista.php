@@ -1,9 +1,15 @@
 <?php
- include_once("../../InsertUsu/conn.php");
  session_start();
+    if(!isset($_SESSION['Cpf'])){
+        // Se Sessão com Login não existir
+        header("Location: ../Login/index.php");// Redireciona para index
+        exit();
+    }
+ include_once("../../InsertUsu/conn.php");
+ 
     $CodMed = 0;
     //echo $CodMed;
-    $stmt = $conn->prepare("SELECT Nome , AreaAtend FROM medico WHERE  IdMed > :CodMed");
+    $stmt = $conn->prepare("SELECT Nome , AreaAtend ,IdMed FROM medico WHERE  IdMed > :CodMed");
     $stmt->bindParam(":CodMed",$CodMed);
     $stmt->execute();
     $resultado = $stmt->fetchAll();
@@ -13,11 +19,11 @@
         foreach($resultado as $r){
         $NomeMed = $r['Nome'];
         $AreaMed = $r['AreaAtend'];
-
+        $IdMed = $r['IdMed'];    
         $consulta [] = [
             'Nome' => $NomeMed,
-            'AreaAtend' => $AreaMed
-
+            'AreaAtend' => $AreaMed,
+            'IdMed' => $IdMed
         ];
         //var_dump($consulta);
     }
@@ -34,14 +40,17 @@
 </head>
 <body>
     <?php if (!empty($consulta)): ?>
+        <h1>Lista de Médicos</h1>
     <table>
         <tr>
+            <th>Código Médico</th>
             <th>Nome do Médico</th>
             <th>Área Médico</th>
         </tr>
         <?php foreach($consulta as $c) :?>
         <tr>
-            <td><?php echo htmlspecialchars($c['Nome']);?></td>
+            <td><?php echo htmlspecialchars($c['IdMed'])?></td>
+            <td><?php echo htmlspecialchars($c['Nome'])?></td>
             <td><?php echo htmlspecialchars($c['AreaAtend'])?></td>
             <td></td>
         </tr>
@@ -53,8 +62,11 @@
 ?>
 
 <?php endif; ?>
-
-
+    <a href="../index.php">Voltar a página Home</a>
+    <br>
+     <br>
+    <br>
+    <a href="../MarcarConsult.php">Voltar a página marcar consultas</a>
 
 
 

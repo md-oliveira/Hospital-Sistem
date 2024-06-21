@@ -1,9 +1,14 @@
 <?php
-include_once("../InsertUsu/conn.php");
 session_start(); 
+if(!isset($_SESSION['Cpf'])){
+  // Se Sessão com Login não existir
+  header("Location: ../Login/index.php");// Redireciona para index
+  exit();
+}
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+include_once("../InsertUsu/conn.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $CodMed = htmlspecialchars($_POST["_CodMed"]);
     $Cpf = htmlspecialchars($_POST["_Cpf"]);
@@ -70,10 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               //echo $_SESSION['ResultadoConsulta'];
             }
         } else {
-            echo "Médico não encontrado.";
+          echo"<script>alert('Credenciais Inválidas')</script>;";
+          echo"<meta http-equiv='refresh' content='1;url=MarcarConsult.php'>";
         }
     } else {
-        echo 'Credenciais inválidas';
+        echo"<script>alert('Médico não encontrado')</script>;";
+        echo"<meta http-equiv='refresh' content='1;url=MarcarConsult.php'>";
     } 
 }
 ?>

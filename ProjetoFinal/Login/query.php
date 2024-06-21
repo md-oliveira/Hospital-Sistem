@@ -15,12 +15,14 @@ try{
         $stmt -> bindParam(':NomeUsu',$NomeUsu);
         $stmt -> execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
+;
         if($resultado)
         {
             //Verifica se a senha criptografada está correta
             if(password_verify($Senha,$resultado['Senha']))
             {   $_SESSION["NomeUsu"] = $NomeUsu;
+                $_SESSION['Cpf'] = $resultado['Cpf'];
+
                 echo "<script>alert('Login feito com sucesso!');</script>";
                 echo"<meta http-equiv='refresh' content='1;url=../InterfaceUsu/index.php'>";
                 

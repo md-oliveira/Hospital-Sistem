@@ -1,3 +1,12 @@
+<?php
+session_start();
+// Verifica se o usuário está logado
+if(!isset($_SESSION['Cpf'])){
+    // Se Sessão com Login não existir
+    header("Location: ../Login/index.php");// Redireciona para index
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +21,7 @@
             <input type="text" required  placeholder="Códico Médico" name="_CodMed">
         <br>
         <label>Digite Seu CPF</label>
-            <input type="text" required placeholder="CPF" name="_Cpf" > 
+            <input type="text" required placeholder="CPF" name="_Cpf" value="<?php echo $_SESSION['Cpf'] ?>" > 
         <br>
        <label>Escolha o Dia</label>
             <input type="date" required placeholder="Data" name="_Data">
@@ -28,6 +37,7 @@
 
     </form>
     
+    <a href="ListarMedicos/lista.php">Nome e código de médicos</a>
 
 </body>
 </html>

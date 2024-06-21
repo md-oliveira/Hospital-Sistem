@@ -1,6 +1,11 @@
 <?php
-    require_once('../InsertUsu/conn.php');
     session_start();
+    if(!isset($_SESSION['Cpf'])){
+        // Se Sessão com Login não existir
+        header("Location: ../Login/index.php");// Redireciona para index
+        exit();
+    }
+    require_once('../InsertUsu/conn.php');
     //var_dump($_SESSION['ResultadoConsulta']);
     $IdCons = $_SESSION['ResultadoConsulta'];
     //preg_match('/\d+/', $IdCons, $matches);
@@ -12,7 +17,7 @@
         $stmt->execute();
         
         echo "<script>alert('Consulta Deletada, Essa ação não pode ser desfeita!');</script>";
-                echo"<meta http-equiv='refresh' content='1;url=MarcarConsult.php'>";
+        echo"<meta http-equiv='refresh' content='1;url=index.php'>";
         
     
     } catch (Exception $e) {
