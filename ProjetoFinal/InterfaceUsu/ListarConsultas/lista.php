@@ -1,41 +1,48 @@
 <?php 
-    include_once("../../InsertUsu/conn.php");
-    //var_dump($conn);
-    session_start();
-    //$NomeMed = $_SESSION['nome_medico'];
-    //$IdCons = $_SESSION['ResultadoConsulta'];
-    //$AreaMed = $_SESSION['area_medico']; 
-    $CpfPac =   $_SESSION['Cpf'];
-    //var_dump($CpfPac);            
+include_once("../../InsertUsu/conn.php");
+session_start();
 
-    $sql = $conn->prepare("SELECT IdMed,Dia,Hora,Sintomas FROM consulta WHERE CpfPac=:CpfPac");
-    $sql->bindParam(":CpfPac", $CpfPac);
-    $sql->execute();
-    $Busca = $sql->fetch(PDO::FETCH_ASSOC); 
-    //var_dump($Busca);
-    //$IdMed=$Busca["IdMed"];
-    //$Dia=$Busca["Dia"];
-    //$Hora=$Busca["Hora"];
-    //$Sintomas=$Busca["Sintomas"];
-    //echo($Sintomas);
+$CpfPac = $_SESSION['Cpf'];
 
-    if ($Busca) {
-        // Exibir uma lista de consultas
-        echo "<ul>";
-        foreach ($Busca as $consulta) {
-            echo "<li>";
-            print_r ($consulta["IdMed"]);
-            echo "</li>";
+$stmt = $conn->prepare("SELECT * FROM consulta WHERE CpfPac = :CpfPac");
+$stmt->bindParam(':CpfPac', $CpfPac);
+$stmt->execute();
+$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+if ($resultados) {
+    $consultas = [];
+    foreach ($resultados as $resultado) {
+        $CodCons = $resultado['IdConsulta'];
+        $Cpf = $resultado['CpfPac'];
+        $Dia = $resultado['Dia'];
+        $Hora = $resultado['Hora'];
+        $Sintomas = $resultado['Sintomas'];
+        $IdMed = $resultado['IdMed'];
+
+        $stmt = $conn->prepare("SELECT Nome, AreaAtend FROM medico WHERE IdMed = :IdMed");
+        $stmt->bindParam(':IdMed', $IdMed);
+        $stmt->execute();
+        $medico = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($medico) {
+            $NomeMed = $medico['Nome'];
+            $AreaAtend = $medico['AreaAtend'];
         }
-        echo "</ul>";
-    } else {
-        echo "Nenhuma consulta encontrada.";
+
+        $consultas[] = [
+            'CodCons' => $CodCons,
+            'NomeMed' => $NomeMed,
+            'AreaAtend' => $AreaAtend,
+            'Dia' => $Dia,
+            'Hora' => $Hora,
+            'Sintomas' => $Sintomas
+        ];
     }
-
-
+} else {
+    $consultas = [];
+}
 ?>
-
-<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,30 +53,35 @@
 <body>
 <h1>Minhas Solicitações</h1>
 
-    <table>
+<?php if (!empty($consultas)) : ?>
+    <table border="1">
         <tr>
+            <th>Código Consulta</th>
             <th>Médico Responsável</th>
             <th>Área do Médico</th>
+            <th>Dia</th>
+            <th>Hora</th>
+            <th>Sintomas</th>
             <th>Situação da Consulta</th>
         </tr>
-            <td>Jurandir</td>
-            <td>Psicologo</td>
-            <td>Análise</td>
+        <?php foreach ($consultas as $c) : ?>
         <tr>
-
-
+            <td><?php echo htmlspecialchars($c['CodCons']); ?></td>
+            <td><?php echo htmlspecialchars($c['NomeMed']); ?></td>
+            <td><?php echo htmlspecialchars($c['AreaAtend']); ?></td>
+            <td><?php echo htmlspecialchars($c['Dia']); ?></td>
+            <td><?php echo htmlspecialchars($c['Hora']); ?></td>
+            <td><?php echo htmlspecialchars($c['Sintomas']); ?></td>
+            <td></td>
         </tr>
-
+        <?php endforeach; ?>
     </table>
-
-
+<?php else : 
+    echo"<script>alert('Nenhuma Consulta encontrada faça o cadastro!')</script>;";
+    echo"<meta http-equiv='refresh' content='1;url=../index.php'>";
+?>
+    
+<?php endif; ?>
 
 </body>
 </html>
-
-
-
-
-
-
-

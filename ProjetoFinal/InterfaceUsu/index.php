@@ -11,6 +11,7 @@
     <nav>
         <a href="MarcarConsult.php">Marcar Consultas</a>
         <a href="ListarConsultas/lista.php">Minhas Consultas</a>
+        <a href="ListarMedicos/lista.php">Nome e código de médicos</a>
     </nav>
    
 
